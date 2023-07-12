@@ -4,4 +4,4 @@ I wanted to build a quick and easy API in NodeJS using AWS dynamodb and EC2 for 
 
 ## Installation
 
-Clone the repo onto your local machine. Run npm i.
+Clone the repo onto your local machine. Run <code>npm i</code>. Create a .env file with your AWS settings (accessKeyId, secretAccessKey, region, endpoint).
