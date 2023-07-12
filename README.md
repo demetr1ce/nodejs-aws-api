@@ -10,7 +10,7 @@ Clone the repo onto your local machine. Run <code>npm i</code>. Create a .env fi
 
 Put these values in your .env file:
 
-accessKeyId=[Your Access Key ID value from AWS]
+accessKeyId=[Your Access Key ID value from AWS] <br/>
 secretAccessKey=[Your Secret Key value from AWS]
 region=[Your AWS Region]
 endpoint=[Your AWS EC2 endpoint]
