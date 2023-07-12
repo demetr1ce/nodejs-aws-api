@@ -14,4 +14,4 @@ Run <code>nodemon app.js</code> and test using Postman.
 <code>accessKeyId=[Your Access Key ID value from AWS]</code><br/>
 <code>secretAccessKey=[Your Secret Key value from AWS]</code><br/>
 <code>region=[Your AWS Region]</code><br/>
-<code>endpoint=[Your AWS EC2 endpoint]</code>
+<code>endpoint=[Your AWS Dynamodb endpoint]</code>
