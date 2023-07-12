@@ -4,7 +4,9 @@ I wanted to build a quick and easy API in NodeJS using AWS dynamodb for a few pe
 
 ## Installation
 
-Clone the repo onto your local machine. Run <code>npm i</code>. After creating your dynamobd on AS, create a .env file with your AWS settings.
+Clone the repo onto your local machine. Run <code>npm i</code>. After creating your dynamobd on AWS, create a .env file with your AWS settings.
+
+Run <code>nodemon app.js</code> and test using Postman.
 
 ## Environmental files
 
