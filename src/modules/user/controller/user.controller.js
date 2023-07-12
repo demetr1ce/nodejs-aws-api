@@ -12,7 +12,7 @@ class UserController {
       const data = await UserService.findByID(req.params.UserID);
 
       if (data) {
-        console.log(`User successfully found: ${data.Username} (${data.UserID})...`);
+        console.log(`User successfully found: ${data.Username} (${data.UserID})`);
         console.log(" ");
 
         res.json(data);
@@ -31,7 +31,7 @@ class UserController {
           const data = await UserService.findByID(req.params.Username);
     
           if (data) {
-            console.log(`User successfully found: ${data.Username} (${data.UserID})...`);
+            console.log(`User successfully found: ${data.Username} (${data.UserID})`);
             console.log(" ");
     
             res.json(data);
