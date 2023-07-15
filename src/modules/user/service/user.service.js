@@ -4,9 +4,10 @@
 const UserRepository = require(`../repository/user.repository`);
 
 class UserService {
-  async findByID(UserID) {
+
+  async findByEmailID(EmailID) {
     try {
-      const data = await UserRepository.findByID(UserID);
+      const data = await UserRepository.findByEmailID(EmailID);
 
       if (data) {
         return data.Item;
@@ -15,25 +16,12 @@ class UserService {
       console.log(e);
     }
   }
-
-  /*
-  async findByUsername(Username) {
-    try {
-      const data = await UserRepository.findByUsername(Username);
-
-      if (data) {
-        return data.Item;
-      }
-    } catch (e) {
-      console.log(e);
-    }
-  }
-  */
 
   async create(data) {
     try {
       return await UserRepository.create({
         Username: data.Username,
+        EmailID: data.EmailID,
       });
     } catch (e) {
       console.log(e);

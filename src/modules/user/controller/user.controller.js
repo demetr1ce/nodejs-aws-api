@@ -3,35 +3,16 @@
 const UserService = require(`../service/user.service`);
 
 class UserController {
-
-  // Begin sending the FIND request
-  async findByID(req, res) {
-    try {
-      console.log(" ");
-      console.log(`Finding UserID: ${JSON.stringify(req.params.UserID)}...`);
-      const data = await UserService.findByID(req.params.UserID);
-
-      if (data) {
-        console.log(`User successfully found: ${data.Username} (${data.UserID})`);
-        console.log(" ");
-
-        res.json(data);
-      }
-    } catch (e) {
-      console.log(e);
-    }
-  }
-
-  /*
+  
     // Begin sending the FIND by Username request
-    async findByUsername(req, res) {
+    async findByEmailID(req, res) {
         try {
           console.log(" ");
-          console.log(`Finding Username: ${JSON.stringify(req.params.Username)}...`);
-          const data = await UserService.findByID(req.params.Username);
+          console.log(`Finding User by Email: ${JSON.stringify(req.params.EmailID)}...`);
+          const data = await UserService.findByEmailID(req.params.EmailID);
     
           if (data) {
-            console.log(`User successfully found: ${data.Username} (${data.UserID})`);
+            console.log(`User successfully found: ${data.Username} (${data.UserID}, ${data.EmailID})`);
             console.log(" ");
     
             res.json(data);
@@ -40,7 +21,7 @@ class UserController {
           console.log(e);
         }
       }
-  */
+  
 
   // Begin sending the CREATE request
   async create(req, res) {
@@ -50,7 +31,7 @@ class UserController {
       const data = await UserService.create(req.body);
 
       if (data) {
-        console.log(`User ${JSON.stringify(data.Username)} successfully created (${data.UserID})`);
+        console.log(`User ${JSON.stringify(data.Username)} successfully created (${data.EmailID}, ${data.UserID})`);
         console.log(" ");
 
         res.json(data);

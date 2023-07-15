@@ -12,12 +12,12 @@ class UserRepository {
     this.tableName = "Users";
   }
 
-  async findByID(UserID) {
+  async findByEmailID(EmailID) {
     const params = {
       TableName: this.tableName,
       Key: {
-        UserID,
-      },
+        EmailID,
+       }, 
     };
 
     try {
@@ -26,32 +26,15 @@ class UserRepository {
       console.log(e);
     }
   }
-  
-/*
-  async findByUsername(Username) {
-    const params = {
-      TableName: this.tableName,
-      Key: {
-        Username,
-      },
-    };
-
-    try {
-      return await db.query(params).promise();
-    } catch (e) {
-      console.log(e);
-    }
-  }
-  */
 
   async create(data) {
-
     try {
       const params = {
         TableName: this.tableName,
         Item: {
           UserID: uuidv4(),
           Username: data.Username,
+          EmailID: data.EmailID,
         },
       };
 
