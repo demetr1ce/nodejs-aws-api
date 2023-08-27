@@ -4,13 +4,27 @@
 const UserRepository = require(`../repository/user.repository`);
 
 class UserService {
-
-  async findByEmailID(EmailID) {
+  async all() {
     try {
-      const data = await UserRepository.findByEmailID(EmailID);
+      const data = await UserRepository.all();
 
       if (data) {
-        return data.Item;
+        data.Items?.forEach((user) => {
+          console.log(`Email: ${user.Email}, Username: ${user.Username}`);
+        });
+        return data;
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  async find(Email) {
+    try {
+      const data = await UserRepository.find(Email);
+
+      if (data) {
+        return data;
       }
     } catch (e) {
       console.log(e);
@@ -21,25 +35,57 @@ class UserService {
     try {
       return await UserRepository.create({
         Username: data.Username,
-        EmailID: data.EmailID,
+        Email: data.Email,
       });
     } catch (e) {
-      console.log(e);
+      throw e;
     }
   }
 
-  async update(UserID, data) {
-    console.log(`Updating item by ID: ${UserID}...`);
+  async update(Email, data) {
+    try {
+      let newEmail;
+      let newUsername;
+      let updateObject = {
+        ID: data.ID
+      };
 
-    return await UserRepository.update(UserID, {
-      Username: data.Username,
-    });
+      if (data?.Email) {
+        newEmail = { Email: data.Email };
+        updateObject = { ...updateObject, ...newEmail};
+      }
+
+      if (data?.Username) {
+        newUsername = { Username: data.Username };
+        updateObject = { ...updateObject, ...newUsername};
+      }
+      
+      let updatedData = await UserRepository.update(Email, updateObject);
+
+      if (data?.Email) {
+        updatedData = ({ ...updatedData, ...{ newUsername: newEmail }});
+      }
+      if (data?.Username) {
+        updatedData = ({ ...updatedData, ...{ newUsername: newUsername }});
+      }
+      
+      return updatedData;
+
+    } catch (e) {
+      throw e;
+    }
   }
 
-  async deleteByID(UserID) {
-    console.log(`Deleting item by ID: ${UserID}...`);
+  async delete(userObject) {
+    try {
+      const data = await UserRepository.delete(userObject);
 
-    return await UserRepository.deleteByID(UserID);
+      if (data) {
+        return data;
+      }
+    } catch (e) {
+      console.log(e);
+    }
   }
 }
 

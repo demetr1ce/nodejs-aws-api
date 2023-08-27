@@ -1,10 +1,10 @@
 # nodejs-aws-api
 
-I wanted to build a quick and easy API in NodeJS using AWS dynamodb for a few personal projects, and it was so quick to setup, I figured I would share it :)
+I wanted to build a quick and easy API in NodeJS (using Express.JS) with an AWS dynamodb database for a few personal projects, and it was so quick to setup, I figured I would share it :)
 
 ## Installation
 
-Clone the repo onto your local machine. Run <code>npm i</code>. After creating your dynamobd on AWS, create a .env file with your AWS settings.
+Clone the repo onto your local machine. Run <code>npm i</code>. After creating your dynamodb on AWS, create a .env file with your AWS settings.
 
 Run <code>nodemon app.js</code> and test using Postman.
 

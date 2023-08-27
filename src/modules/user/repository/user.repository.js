@@ -1,5 +1,5 @@
 // This file will manage database operations like
-// Find data a User by UserID, Create a User, Update
+// Find data a User by EmailID, Create a User, Update
 // a User by UserID, and Delete a User by UserID.
 
 // We use library UUID for the Primary key UserID.
@@ -9,19 +9,41 @@ const { v4: uuidv4 } = require("uuid");
 
 class UserRepository {
   constructor() {
-    this.tableName = "Users";
+    this.usersTableName = "users";
+    this.uniquesTableName = "uniques";
+    this.emailIndexName = "EmailIndex";
   }
 
-  async findByEmailID(EmailID) {
+  async all() {
     const params = {
-      TableName: this.tableName,
-      Key: {
-        EmailID,
-       }, 
+      TableName: this.usersTableName,
+      ProjectionExpression: "#email, #username",
+      ExpressionAttributeNames: { "#email": "Email", "#username": "Username" },
     };
 
     try {
-      return await db.get(params).promise();
+      return await db.scan(params).promise();
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  async find(Email) {
+    try {
+      const params = {
+        TableName: this.usersTableName,
+        IndexName: this.emailIndexName,
+        KeyConditionExpression: "#email = :v_email",
+        ProjectionExpression: "#email, #username, #id",
+        ExpressionAttributeNames: {
+          "#email": "Email",
+          "#username": "Username",
+          "#id": "ID",
+        },
+        ExpressionAttributeValues: { ":v_email": Email },
+      };
+
+      return await db.query(params).promise();
     } catch (e) {
       console.log(e);
     }
@@ -30,52 +52,174 @@ class UserRepository {
   async create(data) {
     try {
       const params = {
-        TableName: this.tableName,
-        Item: {
-          UserID: uuidv4(),
-          Username: data.Username,
-          EmailID: data.EmailID,
-        },
+        TransactItems: [
+          {
+            Put: {
+              TableName: this.usersTableName,
+              ConditionExpression: "attribute_not_exists(#pk)",
+              ExpressionAttributeNames: {
+                "#pk": "ID",
+              },
+              Item: {
+                ID: uuidv4(),
+                Email: data.Email,
+                Username: data.Username,
+              },
+            },
+          },
+          {
+            Put: {
+              TableName: this.uniquesTableName,
+              ConditionExpression: "attribute_not_exists(#pk)",
+              ExpressionAttributeNames: {
+                "#pk": "value",
+              },
+              Item: {
+                value: data.Email,
+                type: "email",
+              },
+            },
+          },
+        ],
       };
 
-      await db.put(params).promise();
+      await db.transactWrite(params).promise();
 
-      return params.Item;
+      return data;
     } catch (e) {
-      console.log(e);
+      throw e;
     }
   }
 
-  async update(UserID, data) {
-    const params = {
-      TableName: this.tableName,
-      Key: {
-        UserID: UserID,
-      },
-      UpdateExpression: `set #Username = :Username`,
-      ExpressionAttributeNames: {
-        "#Username": `Username`,
-      },
-      ExpressionAttributeValues: {
-        ":Username": data.Username,
-      },
-      ReturnValues: `UPDATED_NEW`,
-    };
+  async update(currentEmail, data) {
+    try {
+      let updateExpression = "SET ";
+      let expressionAttributeNames = {};
+      let expressionAttributeValues = {};
+      let conditionExpression;
 
-    const update = await db.update(params).promise();
+      // Always send the email to check against the db, be it old or new
+      updateExpression = updateExpression + "#email = :v_email";
+      conditionExpression = "#email = :v_currentemail";
+      expressionAttributeNames = { "#email": "Email" };
+      expressionAttributeValues = data.Email
+        ? {
+            ":v_email": data.Email,
+            ":v_currentemail": currentEmail,
+          }
+        : { ":v_email": currentEmail, ":v_currentemail": currentEmail };
 
-    return update.Attributes;
+      // Updating username
+      if (data.Username) {
+        updateExpression = updateExpression + ", #username = :v_username";
+        expressionAttributeNames = {
+          ...expressionAttributeNames,
+          ...{ "#username": "Username" },
+        };
+        expressionAttributeValues = {
+          ...expressionAttributeValues,
+          ...{ ":v_username": data.Username },
+        };
+      }
+
+      // Remove the old email from the unique table
+      const uniqueDelete = {
+        Delete: {
+          TableName: this.uniquesTableName,
+          Key: {
+            value: currentEmail,
+            type: "email",
+          },
+          ConditionExpression: "attribute_exists(#pk)", // Optional
+          ExpressionAttributeNames: {
+            "#pk": "value",
+          },
+        },
+      };
+
+      // Add the new email to the unique table
+      const uniquePut = {
+        Put: {
+          TableName: this.uniquesTableName,
+          ConditionExpression: "attribute_not_exists(#pk)",
+          ExpressionAttributeNames: {
+            "#pk": "value",
+          },
+          Item: {
+            value: data.Email,
+            type: "email",
+          },
+        },
+      };
+
+      const params = {
+        TransactItems: [
+          {
+            // Update the email and/or username
+            Update: {
+              TableName: this.usersTableName,
+              Key: {
+                ID: data.ID,
+              },
+              UpdateExpression: updateExpression,
+              ExpressionAttributeNames: expressionAttributeNames,
+              ExpressionAttributeValues: expressionAttributeValues,
+              ConditionExpression: conditionExpression, // Check the value in the db matches the previously read one
+            },
+          },
+        ],
+      };
+
+      // If email is being updated, we must also update the 'unique' table
+      if (data.Email) {
+        params.TransactItems.push(uniqueDelete);
+        params.TransactItems.push(uniquePut);
+      }
+
+      await db.transactWrite(params).promise();
+
+      return data;
+    } catch (e) {
+      throw e;
+    }
   }
 
-  async deleteByID(UserID) {
-    const params = {
-      TableName: this.tableName,
-      Key: {
-        UserID,
-      },
-    };
+  async delete(userObject) {
+    try {
+      const params = {
+        TransactItems: [
+          {
+            Delete: {
+              TableName: this.usersTableName,
+              Key: { ID: userObject.ID },
+              ExpressionAttributeNames: { "#email": "Email" },
+              ExpressionAttributeValues: {
+                ":v_email": userObject.Email,
+              },
+              ConditionExpression: "#email = :v_email",
+            },
+          },
+          {
+            Delete: {
+              TableName: this.uniquesTableName,
+              Key: {
+                value: userObject.Email,
+                type: "email",
+              },
+              ConditionExpression: "attribute_exists(#pk)", // optional
+              ExpressionAttributeNames: {
+                "#pk": "value",
+              },
+            },
+          },
+        ],
+      };
 
-    return await db.delete(params).promise();
+      const del = await db.transactWrite(params).promise();
+      return del;
+    } catch (e) {
+      throw e;
+    }
   }
 }
 
