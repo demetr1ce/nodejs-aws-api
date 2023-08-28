@@ -5,6 +5,8 @@
 // This can also be expanded to track usernames by
 // adding them to the unique table with the 'username'
 // type.
+//
+// https://advancedweb.hu/how-to-properly-implement-unique-constraints-in-dynamodb/#modify-a-user
 
 // We use library UUID for the Primary key UserID.
 const db = require(`../../../helpers/database`);
