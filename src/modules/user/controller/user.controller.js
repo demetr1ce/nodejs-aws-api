@@ -1,6 +1,5 @@
 // Manage request/response. Request starts/ends here.
 
-//const { Finspace } = require("aws-sdk");
 const UserService = require(`../service/user.service`);
 
 class UserController {

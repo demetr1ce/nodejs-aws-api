@@ -1,4 +1,4 @@
-// This file will manage return data from user.repository.js
+// Manage data to/from user.repository.js
 // Manages business logic like manipulation data, validation, etc.
 
 const UserRepository = require(`../repository/user.repository`);
