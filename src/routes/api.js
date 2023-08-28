@@ -6,7 +6,7 @@
 // PATCH /api/v1/users/update/:Email -- UPDATE user by Email
 // DELETE /api/v1/users/delete/:Email -- DELETE user by Email
 
-// As you add more CONTROLLERS, you can break this one api file out into multiple
+// As you add more CONTROLLERS, you can break this api file out into multiple
 // files, then import them back into this file.
 
 // USER
