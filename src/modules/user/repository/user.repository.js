@@ -1,12 +1,12 @@
 // This file will manage database operations,
 // typical CRUD. Take note of how uniqueness of email
-// addresses are guarenteed with the uniques table
+// addresses is guaranteed with the uniques table
 // tracking every unique email entered into the db.
 // This can also be expanded to track usernames by
 // adding them to the unique table with the 'username'
 // type.
 //
-// https://advancedweb.hu/how-to-properly-implement-unique-constraints-in-dynamodb/#modify-a-user
+// https://advancedweb.hu/how-to-properly-implement-unique-constraints-in-dynamodb/
 
 // We use library UUID for the Primary key UserID.
 const db = require(`../../../helpers/database`);
