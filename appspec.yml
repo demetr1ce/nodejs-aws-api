@@ -1,8 +1,8 @@
-version: 0.0
+version: 0.1
 os: linux
 files:
   - source: /
-    destination: /tmp/CodeDeployNodeJS-API
+    destination: /home/ec2-user/nodejs-aws-api
 hooks:
   BeforeInstall:
     - location: ./scripts/before-install.sh
