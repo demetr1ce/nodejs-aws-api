@@ -1,5 +1,5 @@
 #!/bin/bash
-export FOLDER=/tmp/CodeDeployNodeJS-API
+export FOLDER=/home/ec2-user/nodejs-aws-api
 
 if [ -d $FOLDER ]
 then
