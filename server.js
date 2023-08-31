@@ -11,7 +11,7 @@ const createServer = async () => {
     require(`./src/routes/api`)(app);
 
     app.listen(port, () => {
-        console.log(`API listening on port: ${port}...`);
+        console.log(`API listening @ port: ${port}...`);
     })
 };
 
