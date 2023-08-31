@@ -16,3 +16,4 @@ hooks:
   ValidateService:
     - location: ./scripts/validate-service.sh
       timeout: 30
+file_exists_behavior: OVERWRITE
