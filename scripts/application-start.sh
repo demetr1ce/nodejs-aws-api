@@ -1,6 +1,6 @@
 #!/bin/bash
-sudo cd /home/ec2-user/nodejs-aws-api
-sudo npm i
-sudo node app.js
+cd /home/ec2-user/nodejs-aws-api
+npm i
+node app.js
 
-echo "The ApplicationStart deployment lifecycle event successfully completed."
+echo "The ApplicationStart deployment lifecycle event successfully completed." > application-start.txt
