@@ -1,4 +1,5 @@
 #!/bin/bash
+cd ..
 cd /home/ec2-user/nodejs-aws-api
 sudo chown -R $(whoami) ~/nodejs-aws-api
 npm i
