@@ -1,9 +1,6 @@
 #!/bin/bash
-mkdir ~/.npm-global
-npm config set prefix '~/.npm-global'
-export PATH=~/.npm-global/bin:$PATH
-source ~/.profile
-npm install -g jshint
+source /home/ec2-user/.bash_profile
+npm i
 cd /home/ec2-user/nodejs-aws-api
 node app.js
 
