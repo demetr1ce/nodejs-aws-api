@@ -4,4 +4,4 @@ cd /home/ec2-user/nodejs-aws-api
 npm i
 node app.js
 
-echo "API successfully started."
+echo "API successfully started." > application-start.txt
