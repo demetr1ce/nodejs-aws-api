@@ -6,4 +6,4 @@ secretAccessKey=$(sudo aws ssm get-parameters --region us-east-1 --names secretA
 region=$(sudo aws ssm get-parameters --region us-east-1 --names region --query Parameters[0].Value)
 endpoint=$(sudo aws ssm get-parameters --region us-east-1 --names endpoint --query Parameters[0].Value)
 
-echo "accesKeyId=$accessKeyId\n secretAccessKey=$secretAccessKey\n region=$region\n endpoint=$endpoint" > .env
+echo -e "accesKeyId=$accessKeyId\nsecretAccessKey=$secretAccessKey\nregion=$region\nendpoint=$endpoint" > .env
