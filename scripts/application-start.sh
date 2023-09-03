@@ -11,4 +11,4 @@ cd /home/ec2-user/nodejs-aws-api
 npm i
 node app.js
 
-echo -e "accessKeyId=$accessKeyId\nsecretAccessKey=$secretAccessKey\nregion=$region\nendpoint=$endpoint" > .env
+echo -e "accessKeyId=$accessKeyId\nsecretAccessKey=$secretAccessKey\nregion=$region\nendpoint=$endpoint" | tr -d '"' > .env
