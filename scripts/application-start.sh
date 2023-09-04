@@ -6,9 +6,9 @@ secretAccessKey=$(sudo aws ssm get-parameters --region us-east-1 --names secretA
 region=$(sudo aws ssm get-parameters --region us-east-1 --names region --query Parameters[0].Value | tr -d '"')
 endpoint=$(sudo aws ssm get-parameters --region us-east-1 --names endpoint --query Parameters[0].Value | tr -d '"')
 
+echo -e "accessKeyId=$accessKeyId\nsecretAccessKey=$secretAccessKey\nregion=$region\nendpoint=$endpoint" > .env
+
 sudo chown -R $(whoami) ~/nodejs-aws-api
 cd /home/ec2-user/nodejs-aws-api
 npm i
 node app.js
-
-echo -e "accessKeyId=$accessKeyId\nsecretAccessKey=$secretAccessKey\nregion=$region\nendpoint=$endpoint" > .env
