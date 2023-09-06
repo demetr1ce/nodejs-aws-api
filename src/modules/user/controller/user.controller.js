@@ -41,7 +41,7 @@ class UserController {
 
       const data = await UserService.find(req.params.Email);
 
-      if (data) {
+      if (data.Count > 0) {
         console.log(
           `User successfully found: ${data.Items[0]?.Username} (${data.Items[0]?.ID}, ${data.Items[0]?.Email})`
         );
