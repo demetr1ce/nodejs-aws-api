@@ -1,3 +1,5 @@
+source /home/ec2-user/.bash_profile
+
 accessKeyId=$(sudo aws ssm get-parameters --region us-east-1 --names accessKeyId --with-decryption --query Parameters[0].Value | tr -d '"') 
 secretAccessKey=$(sudo aws ssm get-parameters --region us-east-1 --names secretAccessKey --with-decryption --query Parameters[0].Value | tr -d '"')
 region=$(sudo aws ssm get-parameters --region us-east-1 --names region --query Parameters[0].Value | tr -d '"')
