@@ -7,13 +7,14 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": ["API", "NodeJS"],
+  "author": "Demetrice Ledbetter",
   "license": "ISC",
   "dependencies": {
     "aws-sdk": "^2.1403.0",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
-    "nodemon": "^2.0.22"
+    "nodemon": "^2.0.22",
+    "winston": "^3.10.0"
   }
 }
