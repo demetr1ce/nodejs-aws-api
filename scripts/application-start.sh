@@ -1,5 +1,6 @@
 source /home/ec2-user/.bash_profile
 cd /home/ec2-user/nodejs-aws-api
+sudo chown -R $(whoami) ~/nodejs-aws-api
 
 accessKeyId=$(sudo aws ssm get-parameters --region us-east-1 --names accessKeyId --with-decryption --query Parameters[0].Value | tr -d '"') 
 secretAccessKey=$(sudo aws ssm get-parameters --region us-east-1 --names secretAccessKey --with-decryption --query Parameters[0].Value | tr -d '"')
