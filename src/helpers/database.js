@@ -7,10 +7,6 @@ AWS.config.update({
     endpoint: process.env.endpoint,
 });
 
-process.on('uncaughtException', function (err) {
-    logger.log('error','UNCAUGHT EXCEPTION - keeping process alive:',  err);
-});
-
 const db = new AWS.DynamoDB.DocumentClient({convertEmptyValues: true});
 
 module.exports = db;
