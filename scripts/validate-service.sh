@@ -3,4 +3,4 @@ cd /home/ec2-user/nodejs-aws-api
 sudo chown -R $(whoami) ~/nodejs-aws-api
 
 npm i
-sudo node app.js
+npm start
