@@ -29,7 +29,7 @@ class UserRepository {
     try {
       return await db.scan(params).promise();
     } catch (e) {
-      console.log(e);
+      throw e;
     }
   }
 
@@ -50,7 +50,7 @@ class UserRepository {
 
       return await db.query(params).promise();
     } catch (e) {
-      console.log(e);
+      throw e;
     }
   }
 
