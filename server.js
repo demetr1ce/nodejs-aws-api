@@ -25,7 +25,7 @@ const createServer = async () => {
 
   // Start the API
   app.listen(port, () => {
-    console.log(`API listening at port: ${port}...`);
+    console.log(`API listening on port: ${port}...`);
   });
 };
 
