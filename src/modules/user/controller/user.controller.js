@@ -164,21 +164,32 @@ class UserController {
     try {
       const currentUser = await this.find(req, res);
 
-      console.log(`Deleting user: ${currentUser.Items[0]?.Email}...`);
+      if (currentUser) {
+        console.log(`Deleting user: ${currentUser.Items[0]?.Email}...`);
 
-      let userObject = {
-        ID: currentUser.Items[0]?.ID,
-        Email: currentUser.Items[0]?.Email,
-      };
+        let userObject = {
+          ID: currentUser.Items[0]?.ID,
+          Email: currentUser.Items[0]?.Email,
+        };
 
-      const data = await UserService.delete(userObject);
+        const data = await UserService.delete(userObject);
 
-      if (data) {
-        console.log(`Successfully deleted ${JSON.stringify(req.params.Email)}`);
-        console.log(" ");
-        //res.json(`Successfully deleted ${JSON.stringify(req.params.Email)}`);
+        if (data) {
+          console.log(
+            `Successfully deleted ${JSON.stringify(req.params.Email)}`
+          );
+          console.log(" ");
+          //res.json(`Successfully deleted ${JSON.stringify(req.params.Email)}`);
+        } else {
+          console.log(`User ${JSON.stringify(req.params.Email)} not found.`);
+          console.log(" ");
+
+          //res.json(`User ${JSON.stringify(req.params.Email)} not found.`);
+        }
       } else {
         console.log(`User ${JSON.stringify(req.params.Email)} not found.`);
+        console.log(" ");
+
         //res.json(`User ${JSON.stringify(req.params.Email)} not found.`);
       }
     } catch (e) {
