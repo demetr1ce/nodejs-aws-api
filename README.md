@@ -1,6 +1,6 @@
 # nodejs-aws-api
 
-I wanted to build a quick and easy API in NodeJS (using Express.JS) with an AWS dynamodb database for a few personal projects, and it was so quick to setup, I figured I would share it :)
+Foranyone looknig for a rest API template using NodeJS and Express.JS, with an AWS dynamodb database, look no further :)
 
 ## Installation
 
